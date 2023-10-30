@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "sanskrit-transliteration"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "To transliterate Sanskrit strings"
 authors = ["Dhiraj Eadara <eadaradhiraj@gmail.com>"]
 readme = "README.md"
 license = "MIT"
@@ -15,4 +15,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-test = 'tests'
+test = 'tests:test'

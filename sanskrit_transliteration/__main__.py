@@ -4,7 +4,8 @@
 from sanskrit_transliteration import transliterate
 import argparse
 
-if __name__ == '__main__':
+
+def main() -> None:
     parser = argparse.ArgumentParser(
         description='Transliterate Sanskrit Text. Currently supported schemes are VELTHIUS, WX, SLP1, HK, SKT'
     )
@@ -20,3 +21,7 @@ if __name__ == '__main__':
             to_scheme=args.toscheme,
         )
     )
+
+
+if __name__ == '__main__':
+    main()
