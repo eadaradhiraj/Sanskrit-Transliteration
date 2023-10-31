@@ -1,11 +1,13 @@
 # Execute with
 # $ python -m sanskrit_transliteration   (3.7+)
 
-from sanskrit_transliteration import transliterate
 import argparse
+
+from sanskrit_transliteration import transliterate
 
 
 def main() -> None:
+    """Main function to be exposed as a cli script"""
     parser = argparse.ArgumentParser(
         description='Transliterate Sanskrit Text. Currently supported schemes are VELTHIUS, WX, SLP1, HK, SKT'
     )

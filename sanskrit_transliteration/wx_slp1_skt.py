@@ -2,6 +2,10 @@ from .from_skt import FromSkt
 
 
 class WxSlp1Skt:
+    """
+        Class WxSlp1Skt
+        class to convert WX or SLP1 to Devanagari and vice versa
+    """
     __CONSONANTS_DICT = {
         "k": "क",
         "K": "ख",
@@ -78,7 +82,13 @@ class WxSlp1Skt:
     }
 
     @staticmethod
-    def wx_slp1_to_skt(text: str, from_scheme):
+    def wx_slp1_to_skt(text: str, from_scheme: str) -> str:
+        """
+        Convert either WX or SLP1 to devanagari
+        :param text: any text in WX or SLP1 scheme
+        :param from_scheme: string either WX or SLP1
+        :return: resultant string in Devanagari
+        """
         __consonants, __vowels, __vowel_markers, __rem_chars = {}, {}, {}, {}
         if from_scheme == "WX":
             __consonants = {
@@ -200,17 +210,19 @@ class WxSlp1Skt:
         return ''.join(res)
 
     @staticmethod
-    def skt_to_wx(text: str):
+    def skt_to_wx(text: str) -> str:
+        """
+        Convert devanagari to WX
+        :param text: any text in devanagari
+        :return: resultant text in WX scheme
+        """
         return FromSkt.transliterate_from_skt(scheme="WX", text=text)
 
     @staticmethod
-    def skt_to_slp1(text: str):
+    def skt_to_slp1(text: str) -> str:
+        """
+        Convert devanagari to SLP1
+        :param text: any text in devanagari
+        :return: resultant text in SLP1 scheme
+        """
         return FromSkt.transliterate_from_skt(scheme="SLP1", text=text)
-
-
-if __name__ == '__main__':
-    print(
-        WxSlp1Skt.wx_slp1_to_skt(
-            text="pArWAya prawiboXiwAM BagavawA nArAyaNena svayam vyAsena graWiwAM purANamuninA maXye mahABArawe",
-            from_scheme="WX")
-    )

@@ -1,10 +1,21 @@
 from functools import partial
+
 from .utils import get_dict_value
 
 
 class WxSlp1Vel:
+    """
+        Class WxSlp1Vel
+        class to convert WX or SLP1 to Velthius and vice versa
+    """
+
     @staticmethod
-    def vel_to_wx_or_slp1(text, to_scheme):
+    def vel_to_wx_or_slp1(text: str, to_scheme: str) -> str:
+        """
+        Convert Velthius to WX or SLP1
+        :param text: any text in Velthius scheme
+        :return: resultant text in  WX or SLP1 scheme
+        """
         replacements = {
             ".a": {"WX": "Z", "SLP1": "'"},
             "ch": "C",
@@ -45,6 +56,7 @@ class WxSlp1Vel:
                 nxt_ch = text[i + 1]
             if i < text_len - 2:
                 nxt_nxt_ch = text[i + 2]
+            # if characters start with the dot
             if ch == ".":
                 if nxt_ch in ["d", "t"]:
                     if nxt_nxt_ch == "h":
@@ -77,19 +89,22 @@ class WxSlp1Vel:
                     i += 1
                 else:
                     res.append(".")
+            # if char starts with a quote
             elif ch == '"' and nxt_ch in ['s', 'n']:
                 res.append(_rep(ch + nxt_ch))
                 i += 1
+            # if char starts with a tilde
             elif ch == '~' and nxt_ch == "n":
                 res.append(_rep(ch + nxt_ch))
                 i += 1
+            # if char is an aspirate
             elif ch in ["c", "p", "b", "k", "g", "j", "t", "d"]:
                 if nxt_ch == "h":
                     res.append(_rep(ch + nxt_ch))
                     i += 1
                 else:
                     res.append(_rep(ch))
-
+            # if char is a diphthong
             elif ch == "a" and nxt_ch in ["a", "i", "u"]:
                 res.append(_rep(ch + nxt_ch))
                 i += 1
@@ -99,7 +114,12 @@ class WxSlp1Vel:
         return ''.join(res)
 
     @staticmethod
-    def wx_to_vel(text):
+    def wx_to_vel(text: str) -> str:
+        """
+        Convert WX to Velthius
+        :param text: any text in WX scheme
+        :return: resultant text in Velthius scheme
+        """
         replacements = {
             'Z': ".a",
             'N': '.n',
@@ -132,7 +152,12 @@ class WxSlp1Vel:
         return ''.join(res)
 
     @staticmethod
-    def slp1_to_vel(text):
+    def slp1_to_vel(text: str) -> str:
+        """
+        Convert SLP1 to Velthius
+        :param text: any text in SLP1 scheme
+        :return: resultant text in Velthius scheme
+        """
         replacements = {
             "'": ".a",
             'M': '.m',
@@ -164,7 +189,3 @@ class WxSlp1Vel:
         }
         res = [replacements.get(ch, ch) for ch in text]
         return ''.join(res)
-
-
-if __name__ == '__main__':
-    print(WxSlp1Vel.wx_to_vel("f"))

@@ -2,6 +2,10 @@ from .from_skt import FromSkt
 
 
 class VelSkt:
+    """
+        Class VelSkt
+        Class for converting velthius to devanagari and vice versa
+    """
     __VEL_CONSONANTS_DICT = {
         ".t": "ट",
         ".th": "ठ",
@@ -76,7 +80,17 @@ class VelSkt:
             prev_ch: str,
             prev_prev_ch: str,
             prev_prev_prev_ch: str
-    ):
+    ) -> tuple[str, int]:
+        """
+        Deal with characters starting with a dot
+        :param nxt_ch: the next character as a string
+        :param nxt_nxt_ch: the next character after next as a string
+        :param i: index value denoting position in the text in function that calls this
+        :param prev_ch: the prev character as a string
+        :param prev_prev_prev_ch: the prev character before 3 position as a string
+        :param prev_prev_ch: the character before 2 positions in the text
+        :return: tuple with resultant char string and index value
+        """
         res_ch = ""
         if nxt_ch is None:
             return "।", i
@@ -116,7 +130,18 @@ class VelSkt:
         return res_ch, i
 
     @staticmethod
-    def __halant_applies_here(prev_ch, prev_prev_ch, prev_prev_prev_ch):
+    def __halant_applies_here(
+            prev_ch: str,
+            prev_prev_ch: str,
+            prev_prev_prev_ch: str
+    ) -> bool:
+        """
+        Whether halanta is applicable at position, otherwise schwa gets added.
+        :param prev_ch: the string that comes before index value in function calling this one
+        :param prev_prev_ch: the string that comes before 2 positions in function calling this one
+        :param prev_prev_prev_ch: the string that comes before 3 positions in function calling this one
+        :return: tuple with resultant char string and index value
+        """
         if prev_ch == "r" and prev_prev_ch == "r" and prev_prev_prev_ch == ".":
             return False
         elif (prev_ch == "r" and prev_prev_ch == ".") or \
@@ -129,7 +154,20 @@ class VelSkt:
             return False
 
     @staticmethod
-    def __get_vowel(ch, nxt_ch, idx, vowel_chars):
+    def __get_vowel(
+            ch: str,
+            nxt_ch: str | None,
+            idx: int,
+            vowel_chars: dict[str, str]
+    ) -> tuple[str, int]:
+        """
+        Deal with vowels and increment indexes to skip already traversed characters
+        :param ch: the current character string
+        :param nxt_ch: the next character string
+        :param idx: the position of the index in the text
+        :param vowel_chars: dictionary of replacement characters
+        :return: tuple with resultant char string and index value
+        """
         if ch == "a" and nxt_ch in ["a", "i", "u"]:
             res_ch = vowel_chars[ch + nxt_ch]
             idx += 1
@@ -141,7 +179,11 @@ class VelSkt:
         return res_ch, idx
 
     @staticmethod
-    def vel_to_skt(text: str):
+    def vel_to_skt(text: str) -> str:
+        """
+        :param text: any input text in velthius scheme
+        :return: string in devanagari script
+        """
         text_len, cres, idx = len(text), [], 0
         while idx < text_len:
             ch = text[idx]
@@ -182,6 +224,7 @@ class VelSkt:
                     idx += 1
                 else:
                     cres.append('"')
+            # if char starts with a tilde
             elif ch == '~':
                 # halanta
                 if prev_ch in VelSkt.__VEL_CONSONANTS_DICT:
@@ -246,13 +289,9 @@ class VelSkt:
         return ''.join(cres)
 
     @staticmethod
-    def skt_to_vel(text: str):
+    def skt_to_vel(text: str) -> str:
+        """
+        :param text: any input text in devanagari script
+        :return: string in velthius format
+        """
         return FromSkt.transliterate_from_skt(scheme="VELTHIUS", text=text)
-
-
-if __name__ == '__main__':
-    res = VelSkt.vel_to_skt('.dhu.n.dhikaa.api')
-    print(res)
-    print(
-        res == "रामः इव, १२३।"
-    )

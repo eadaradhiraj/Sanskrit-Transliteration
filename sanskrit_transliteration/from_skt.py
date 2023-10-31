@@ -1,4 +1,8 @@
 class FromSkt:
+    """
+        Class FromSkt
+        This class is used for transliterating to devanagari
+    """
     __vowels = {
         "अ": {"HK": "a", "VELTHIUS": "a", "SLP1": "a", "WX": "a"},
         "आ": {"HK": "A", "VELTHIUS": "aa", "SLP1": "A", "WX": "A"},
@@ -93,6 +97,12 @@ class FromSkt:
 
     @staticmethod
     def transliterate_from_skt(scheme: str, text: str) -> str:
+        """
+        convert VELTHIUS, HK, SLP1 or WX TO DEVANAGARI
+        :param scheme: the input scheme VELTHIUS, HK, SLP1, WX
+        :param text: the input text
+        :return: output text in devanagari
+        """
         res = []
         for ch in text:
             if ch in FromSkt.__consonants:

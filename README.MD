@@ -19,6 +19,6 @@ print(
 )
 # हर हर महादेव
 ```
-
-
+Code is hosted: https://github.com/eadaradhiraj/Sanskrit-Transliteration
+Package can be downloaded: https://pypi.org/project/sanskrit-transliteration/
 

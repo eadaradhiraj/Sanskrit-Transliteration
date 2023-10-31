@@ -1,7 +1,15 @@
 class VelthiusHk:
+    """
+        Class VelthiusHk
+        Convert Velthius to Harvard Kyoto and vice versa
+    """
 
     @staticmethod
-    def hk_to_velthius(text: str):
+    def hk_to_velthius(text: str) -> str:
+        """
+        :param text: any input text in harvard kyoto scheme
+        :return: string in velthius format
+        """
         replacements = {
             "A": "aa",
             "I": "ii",
@@ -23,12 +31,14 @@ class VelthiusHk:
             ch, nxt_ch = text[i], None
             if i < text_len - 1:
                 nxt_ch = text[i + 1]
+            # r vowel
             if text[i] == "R":
                 if nxt_ch == "R":
                     res.append(".rr")
                     i += 1
                 else:
                     res.append(".r")
+            # adding a full-stop
             elif ch == "|":
                 res.append(".")
             else:
@@ -39,7 +49,11 @@ class VelthiusHk:
         return "".join(res)
 
     @staticmethod
-    def velthius_to_hk(text: str):
+    def velthius_to_hk(text: str) -> str:
+        """
+        :param text: any input text in velthius scheme
+        :return: string in harvard kyoto format
+        """
         replacements = {
             "aa": "A",
             "ii": "I",

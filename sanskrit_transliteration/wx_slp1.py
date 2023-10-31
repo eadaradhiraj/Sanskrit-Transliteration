@@ -1,6 +1,15 @@
 class WxSlp1:
+    """
+        Class WxSlp1
+        class for converting from WX to SLP1 and vice versa
+    """
+
     @staticmethod
-    def wx_to_slp1(text):
+    def wx_to_slp1(text: str) -> str:
+        """
+        :param text: input string in slp1 scheme
+        :return: result string in the WX scheme
+        """
         replacements = {
             "Z": "'",
             'f': 'N',
@@ -21,7 +30,11 @@ class WxSlp1:
         return ''.join([replacements.get(ch, ch) for ch in text])
 
     @staticmethod
-    def slp1_to_wx(text):
+    def slp1_to_wx(text: str) -> str:
+        """
+        :param text: input string in slp1 scheme
+        :return: result string in the WX scheme
+        """
         replacements = {
             "'": 'Z',
             'N': 'f',

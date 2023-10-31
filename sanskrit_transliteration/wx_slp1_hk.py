@@ -1,10 +1,22 @@
 from functools import partial
+
 from .utils import get_dict_value
 
 
 class WxSlp1Hk:
+    """
+        Class WxSlp1Hk
+        class to convert WX or SLP1 to HK and vice versa
+    """
+
     @staticmethod
-    def hk_to_wx_or_slp1(text, to_scheme):
+    def hk_to_wx_or_slp1(text: str, to_scheme: str) -> str:
+        """
+        To convert Harvard Kyoto text to either WX or SLP1
+        :param text: text in harvard kyoto format
+        :param to_scheme: intended output scheme WX or SLP1
+        :return: resultant string in WX or SLP1 scheme
+        """
         replacements = {
             "'": {"WX": "Z", "SLP1": "'"},
             "ch": "C",
@@ -32,6 +44,7 @@ class WxSlp1Hk:
             "|": "."
         }
         res, i, text_len = [], 0, len(text)
+        # create partial function to get char replacements
         _rep = partial(
             get_dict_value,
             to_scheme,
@@ -42,12 +55,14 @@ class WxSlp1Hk:
             ch, nxt_ch = text[i], None
             if i < text_len - 1:
                 nxt_ch = text[i + 1]
+            # dealing with potential aspirates
             if ch in ["c", "d", "T", "p", "b", "D", "t", "k", "g", "j"]:
                 if nxt_ch == "h":
                     res.append(_rep(ch + nxt_ch))
                     i += 1
                 else:
                     res.append(_rep(ch))
+            # potential diphthongs
             elif ch == "a" and nxt_ch in ["i", "u"]:
                 res.append(_rep(ch + nxt_ch))
                 i += 1
@@ -63,7 +78,12 @@ class WxSlp1Hk:
         return ''.join(res)
 
     @staticmethod
-    def wx_to_hk(text):
+    def wx_to_hk(text: str) -> str:
+        """
+        Convert WX to HK
+        :param text: any text in WX scheme
+        :return: string in HK scheme
+        """
         replacements = {
             "Z": "'",
             "J": "jh",
@@ -93,7 +113,12 @@ class WxSlp1Hk:
         return ''.join(res)
 
     @staticmethod
-    def slp1_to_hk(text):
+    def slp1_to_hk(text: str) -> str:
+        """
+        Convert text from SLP1 to HK
+        :param text: any string in SLP1 scheme
+        :return: result in HK scheme
+        """
         replacements = {
             "J": "jh",
             "C": "ch",

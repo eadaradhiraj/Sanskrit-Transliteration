@@ -2,6 +2,10 @@ from .from_skt import FromSkt
 
 
 class HkAndSkt:
+    """
+        Class HkAndSkt
+        This class is used for transliterating Harvard Kyoto to devanagari and vice versa
+    """
     __HK_CONSONANTS_DICT = {
         "k": "क",
         "g": "ग",
@@ -89,7 +93,12 @@ class HkAndSkt:
     }
 
     @staticmethod
-    def hk_to_skt(text: str):
+    def hk_to_skt(text: str) -> str:
+        """
+        HARVARD KYOTO SCHEME TO DEVANAGARI
+        :param text: any text in Harvard-Kyoto Scheme
+        :return: text in devanagari
+        """
         text_len, res, idx = len(text), [], 0
         while idx < text_len:
             ch = text[idx]
@@ -157,5 +166,6 @@ class HkAndSkt:
         return ''.join(res)
 
     @staticmethod
-    def skt_to_hk(text: str):
+    def skt_to_hk(text: str) -> str:
+        """DEVANAGARI TO HARVARD KYOTO SCHEME"""
         return FromSkt.transliterate_from_skt(scheme="HK", text=text)
